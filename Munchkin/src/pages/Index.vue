@@ -4,24 +4,46 @@
       Ajoutez un joueur pour commencer
     </div>
 
-    <q-card flat bordered class="my-card bg-grey-1">
-      <q-card-section>
+    <q-card v-else flat bordered class="my-card bg-accent">
+      <q-card-section class="char-box">
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-h4">{{characters.name}}</div>
-            <div class="text-subtitle2">
+            <div class="text-h4">
+              {{characters.name}}
+              <q-icon v-if="characters.sex == 'Homme'" name="male"/>
+              <q-icon v-else name="female"/>
+            </div>
+            <div class="text-subtitle2 q-mb-sm">
               <span>{{characters.race}}</span>
               <span v-if="characters.race2 != 'Aucune'">/{{characters.race2}}</span>
-              <span class="q-ml-md">{{characters.job}}</span>
+              <span class="q-ml-xl">{{characters.job}}</span>
               <span v-if="characters.job2 != 'Aucune'">/{{characters.job2}}</span>
-              <span class="q-ml-md">{{characters.sex}}</span>
             </div>
           </div>
         </div>
+        <div class="stat-section">
+          <div class="box1">
+            <div class="text-subtitle2">Niveau</div>
+            <q-btn-group class="stat-box bg-secondary">
+              <q-btn icon="eva-minus-outline" color="primary"/>
+              <span>{{characters.lvl}}</span>
+              <q-btn icon="eva-plus-outline" color="primary"/>
+            </q-btn-group>
+          </div>
+          <div>
+            <div class="text-subtitle2">Bonus</div>
+            <q-btn-group class="stat-box bg-secondary">
+              <q-btn icon="eva-minus-outline" color="primary"/>
+              <span>{{characters.bonus}}</span>
+              <q-btn icon="eva-plus-outline" color="primary"/>
+            </q-btn-group>
+          </div>
+        </div>
+        <div class="power-box text-h6">PUISSANCE : {{characters.bonus + characters.lvl}}</div>
       </q-card-section>
 
       <q-card-actions>
-        <q-btn flat>Combattre !</q-btn>
+        <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
       </q-card-actions>
     </q-card>
 
@@ -115,7 +137,7 @@ export default defineComponent({
   name: 'PageIndex',
   data() {
     return {
-      isEmpty: true,
+      isEmpty: false,
       create: ref(false),
       sex: ref(false),
       name: '',
@@ -143,7 +165,7 @@ export default defineComponent({
           race: 'Elfe',
           race2: 'Orc',
           job: 'Voleur',
-          job2: 'Aucune',
+          job2: 'Guerrier',
           sex: 'Homme',
           lvl: 1,
           bonus: 2
@@ -157,6 +179,42 @@ export default defineComponent({
   .background-txt {
     font-size: 2rem;
     color: $primary;
+  }
+  .my-card{
+    @media (max-width: $breakpoint-xs-max){
+        max-width: 365px;
+        min-width: 250px;
+    }
+  }
+  .char-box {
+    padding-bottom: 5px;
+  }
+  .stat-section {
+    display: flex;
+    @media (max-width: $breakpoint-xs-max){
+        display: block;
+    }
+  }
+  .stat-box {
+    width: 168px;
+    span {
+      margin: auto auto;
+    }
+  }
+  .box1 {
+    @media (min-width: $breakpoint-xs-max) {
+      margin-right: 15px;
+    }
+    @media (max-width: $breakpoint-xs-max){
+        margin-bottom: 15px;
+    }
+  }
+  .power-box {
+    margin: 15px auto;
+    margin-bottom: 0px;
+  }
+  .fight-btn {
+    margin: 0 auto;
   }
   .create-btn {
     height: 45px;
