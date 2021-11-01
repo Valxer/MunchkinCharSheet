@@ -1,1 +1,24 @@
 // app global css in SCSS form
+.phone-only {
+    @media (max-width: $breakpoint-xs-max){
+        display: block;
+    }
+    @media (min-width: $breakpoint-sm-min){
+        display: none;
+    }
+}
+
+.desktop-only {
+    @media (max-width: $breakpoint-xs-max){
+        display: none!important;
+    }
+    @media (min-width: $breakpoint-sm-min){
+        display: block;
+    }
+}
+
+.page-container {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+  }
