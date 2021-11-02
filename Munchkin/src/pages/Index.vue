@@ -4,7 +4,7 @@
       Ajoutez un joueur pour commencer
     </div>
 
-    <div v-else>
+    <div v-else class="cards-container">
       <q-card
         v-for="char in chars"
         :key="char.name"
@@ -17,7 +17,7 @@
             <div class="col">
               <div class="text-h4">
                 {{char.name}}
-                <q-icon v-if="char.sex == 'Homme'" name="male"/>
+                <q-icon v-if="!char.sex" name="male"/>
                 <q-icon v-else name="female"/>
               </div>
               <div class="text-subtitle2 q-mb-sm">
@@ -55,19 +55,22 @@
       </q-card>
     </div>
 
-    <q-page-sticky position="bottom-left" :offset="[18,18]">
+    <q-page-sticky
+      v-if="chars.length"
+      position="bottom-left"
+      :offset="[18,18]">
       <q-btn
         class="text-bold reset-btn"
         text-color="secondary"
         color="primary"
-        icon-right="eva-trash-2-outline"
+        icon-right="mdi-skull-outline"
         label="Reset"
         @click="reset = true"
       />
       <q-dialog v-model="reset" persistent>
         <q-card>
           <q-card-section class="column items-center">
-            <q-avatar icon="eva-trash-2-outline" color="primary" text-color="accent" />
+            <q-avatar icon="mdi-skull-outline" color="primary" text-color="accent" />
             <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir tuer tous les personnages créés ?<br/>Pas de retour possible...</span>
           </q-card-section>
 
@@ -148,7 +151,7 @@
           </q-card-section>
           <div v-if="creationError" class="error-msg">
             Informations incorrectes :<br/>
-            Nom oligatoire<br/>
+            Nom obligatoire : max 10 caractères<br/>
             Les deux races doivent être différentes<br/>
             Les deux classes doivent être différentes<br/>
             La deuxième classe ne peut pas exister sans première classe
@@ -226,16 +229,19 @@ export default defineComponent({
   },
   methods: {
     ...mapActions('chars', ['addChar', 'clearState']),
+    resetValues() {
+      this.name = ''
+      this.sex = false
+      this.race = 'Humain'
+      this.race2 = 'Aucune'
+      this.job = 'Aucune'
+      this.job2 = 'Aucune'
+    },
     createUser() {
-      if (this.name && (this.race != this.race2) && ((this.job != this.job2) && this.job != 'Aucune' || this.job2 == 'Aucune')) {
+      if ((this.name && this.name.length < 11) && (this.race != this.race2) && ((this.job != this.job2) && this.job != 'Aucune' || this.job2 == 'Aucune')) {
         const newChar = {}
-        newChar.name = this.name
-        if(this.sex) {
-          newChar.sex = 'Femme'
-        }
-        else {
-          newChar.sex = 'Homme'
-        }
+        newChar.name = this.name.toUpperCase()
+        newChar.sex = this.sex
         newChar.race = this.race
         newChar.race2 = this.race2
         newChar.job = this.job
@@ -244,7 +250,9 @@ export default defineComponent({
         newChar.bonus = 0
         console.log('User :', newChar)
         this.addChar(newChar)
+        this.resetValues()
         this.create = false
+
       }
       else {
         this.creationError = true
@@ -263,7 +271,14 @@ export default defineComponent({
     font-size: 2rem;
     color: $primary;
   }
+  .cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .my-card{
+    margin: 15px;
     @media (max-width: $breakpoint-xs-max){
         max-width: 365px;
         min-width: 250px;
