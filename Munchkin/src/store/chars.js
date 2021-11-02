@@ -5,13 +5,22 @@ const state = {
 const mutations = {
     addChar(state, payload) {
         state.chars.push(payload);
+    },
+    clearState(state) {
+        while (state.chars.length) {
+            state.chars.pop()
+        }
     }
 }
 
 const actions = {
-    setId({commit}, payload) {
+    addChar({commit}, payload) {
         console.log('adding char')
-        commit('addchar', payload)
+        commit('addChar', payload)
+    },
+    clearState({commit}) {
+        console.log('resetting char store')
+        commit('clearState')
     }
 }
 
