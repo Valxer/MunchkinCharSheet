@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center page-container">
-    <div v-if="isEmpty" class="background-txt">
+    <div v-if="!chars.length" class="background-txt">
       Ajoutez un joueur pour commencer
     </div>
 
@@ -9,15 +9,15 @@
         <div class="row items-center no-wrap">
           <div class="col">
             <div class="text-h4">
-              {{characters.name}}
-              <q-icon v-if="characters.sex == 'Homme'" name="male"/>
+              {{character.name}}
+              <q-icon v-if="character.sex == 'Homme'" name="male"/>
               <q-icon v-else name="female"/>
             </div>
             <div class="text-subtitle2 q-mb-sm">
-              <span>{{characters.race}}</span>
-              <span v-if="characters.race2 != 'Aucune'">/{{characters.race2}}</span>
-              <span class="q-ml-xl">{{characters.job}}</span>
-              <span v-if="characters.job2 != 'Aucune'">/{{characters.job2}}</span>
+              <span>{{character.race}}</span>
+              <span v-if="character.race2 != 'Aucune'">/{{character.race2}}</span>
+              <span class="q-ml-xl">{{character.job}}</span>
+              <span v-if="character.job2 != 'Aucune'">/{{character.job2}}</span>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="text-subtitle2">Niveau</div>
             <q-btn-group class="stat-box bg-secondary">
               <q-btn icon="eva-minus-outline" color="primary"/>
-              <span>{{characters.lvl}}</span>
+              <span>{{character.lvl}}</span>
               <q-btn icon="eva-plus-outline" color="primary"/>
             </q-btn-group>
           </div>
@@ -34,18 +34,42 @@
             <div class="text-subtitle2">Bonus</div>
             <q-btn-group class="stat-box bg-secondary">
               <q-btn icon="eva-minus-outline" color="primary"/>
-              <span>{{characters.bonus}}</span>
+              <span>{{character.bonus}}</span>
               <q-btn icon="eva-plus-outline" color="primary"/>
             </q-btn-group>
           </div>
         </div>
-        <div class="power-box text-h6">PUISSANCE : {{characters.bonus + characters.lvl}}</div>
+        <div class="power-box text-h6">PUISSANCE : {{character.bonus + character.lvl}}</div>
       </q-card-section>
 
       <q-card-actions>
         <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
       </q-card-actions>
     </q-card>
+
+    <q-page-sticky position="bottom-left" :offset="[18,18]">
+      <q-btn
+        class="text-bold reset-btn"
+        text-color="secondary"
+        color="primary"
+        icon-right="eva-trash-2-outline"
+        label="Reset"
+        @click="reset = true"
+      />
+      <q-dialog v-model="reset" persistent>
+        <q-card>
+          <q-card-section class="column items-center">
+            <q-avatar icon="eva-trash-2-outline" color="primary" text-color="accent" />
+            <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir tuer tous les personnages créés ?<br/>Pas de retour possible...</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Annuler" color="primary" v-close-popup />
+            <q-btn flat label="Confirmer" color="primary" @click="resetState"/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </q-page-sticky>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
@@ -132,6 +156,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { ref } from 'vue'
+import { mapActions, mapState } from 'vuex'
 
 export default defineComponent({
   name: 'PageIndex',
@@ -139,6 +164,8 @@ export default defineComponent({
     return {
       isEmpty: false,
       create: ref(false),
+      reset: ref(false),
+      //form storage
       sex: ref(false),
       name: '',
       race:'Humain',
@@ -160,7 +187,8 @@ export default defineComponent({
         'Prêtre',
         'Voleur'
       ],
-      characters: {
+      // provisionnal char sheet
+      character: {
           name: 'Valxer',
           race: 'Elfe',
           race2: 'Orc',
@@ -170,6 +198,35 @@ export default defineComponent({
           lvl: 1,
           bonus: 2
       }
+    }
+  },
+  computed: {
+    ...mapState('chars', ['chars'])
+  },
+  methods: {
+    ...mapActions('chars', ['addChar', 'clearState']),
+    createUser() {
+      const newChar = {}
+      newChar.name = this.name
+      if(this.sex) {
+        newChar.sex = 'Femme'
+      }
+      else {
+        newChar.sex = 'Homme'
+      }
+      newChar.race = this.race
+      newChar.race2 = this.race2
+      newChar.job = this.job
+      newChar.job2 = this.job2
+      newChar.lvl = 1
+      newChar.bonus = 0
+      console.log('User :', newChar)
+      this.addChar(newChar)
+      this.create = false
+    },
+    resetState() {
+      this.clearState()
+      this.reset = false
     }
   }
 })
