@@ -4,48 +4,56 @@
       Ajoutez un joueur pour commencer
     </div>
 
-    <q-card v-else flat bordered class="my-card bg-accent">
-      <q-card-section class="char-box">
-        <div class="row items-center no-wrap">
-          <div class="col">
-            <div class="text-h4">
-              {{character.name}}
-              <q-icon v-if="character.sex == 'Homme'" name="male"/>
-              <q-icon v-else name="female"/>
+    <div v-else>
+      <q-card
+        v-for="char in chars"
+        :key="char.name"
+        flat
+        bordered
+        class="my-card bg-accent"
+      >
+        <q-card-section class="char-box">
+          <div class="row items-center no-wrap">
+            <div class="col">
+              <div class="text-h4">
+                {{char.name}}
+                <q-icon v-if="char.sex == 'Homme'" name="male"/>
+                <q-icon v-else name="female"/>
+              </div>
+              <div class="text-subtitle2 q-mb-sm">
+                <span>{{char.race}}</span>
+                <span v-if="char.race2 != 'Aucune'">/{{char.race2}}</span>
+                <span v-if="char.job != 'Aucune'" class="q-ml-xl">{{char.job}}</span>
+                <span v-if="char.job2 != 'Aucune'">/{{char.job2}}</span>
+              </div>
             </div>
-            <div class="text-subtitle2 q-mb-sm">
-              <span>{{character.race}}</span>
-              <span v-if="character.race2 != 'Aucune'">/{{character.race2}}</span>
-              <span class="q-ml-xl">{{character.job}}</span>
-              <span v-if="character.job2 != 'Aucune'">/{{character.job2}}</span>
+          </div>
+          <div class="stat-section">
+            <div class="box1">
+              <div class="text-subtitle2">Niveau</div>
+              <q-btn-group class="stat-box bg-secondary">
+                <q-btn icon="eva-minus-outline" color="primary"/>
+                <span>{{char.lvl}}</span>
+                <q-btn icon="eva-plus-outline" color="primary"/>
+              </q-btn-group>
+            </div>
+            <div>
+              <div class="text-subtitle2">Bonus</div>
+              <q-btn-group class="stat-box bg-secondary">
+                <q-btn icon="eva-minus-outline" color="primary"/>
+                <span>{{char.bonus}}</span>
+                <q-btn icon="eva-plus-outline" color="primary"/>
+              </q-btn-group>
             </div>
           </div>
-        </div>
-        <div class="stat-section">
-          <div class="box1">
-            <div class="text-subtitle2">Niveau</div>
-            <q-btn-group class="stat-box bg-secondary">
-              <q-btn icon="eva-minus-outline" color="primary"/>
-              <span>{{character.lvl}}</span>
-              <q-btn icon="eva-plus-outline" color="primary"/>
-            </q-btn-group>
-          </div>
-          <div>
-            <div class="text-subtitle2">Bonus</div>
-            <q-btn-group class="stat-box bg-secondary">
-              <q-btn icon="eva-minus-outline" color="primary"/>
-              <span>{{character.bonus}}</span>
-              <q-btn icon="eva-plus-outline" color="primary"/>
-            </q-btn-group>
-          </div>
-        </div>
-        <div class="power-box text-h6">PUISSANCE : {{character.bonus + character.lvl}}</div>
-      </q-card-section>
+          <div class="power-box text-h6">PUISSANCE : {{char.bonus + char.lvl}}</div>
+        </q-card-section>
 
-      <q-card-actions>
-        <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
-      </q-card-actions>
-    </q-card>
+        <q-card-actions>
+          <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
+        </q-card-actions>
+      </q-card>
+    </div>
 
     <q-page-sticky position="bottom-left" :offset="[18,18]">
       <q-btn
@@ -123,7 +131,7 @@
               class="q-mb-md formField"
               standout="bg-accent text-secondary"
               v-model="race2"
-              :options="races"
+              :options="races2"
               label="Seconde race" />
             <q-select
               class="q-mb-md formField"
@@ -138,7 +146,13 @@
               :options="jobs"
               label="Seconde classe" />
           </q-card-section>
-
+          <div v-if="creationError" class="error-msg">
+            Informations incorrectes :<br/>
+            Nom oligatoire<br/>
+            Les deux races doivent être différentes<br/>
+            Les deux classes doivent être différentes<br/>
+            La deuxième classe ne peut pas exister sans première classe
+          </div>
           <q-card-actions align="center">
             <q-btn
               class="q-mb-md bg-accent validate-btn"
@@ -162,17 +176,24 @@ export default defineComponent({
   name: 'PageIndex',
   data() {
     return {
-      isEmpty: false,
+      creationError: false,
       create: ref(false),
       reset: ref(false),
       //form storage
       sex: ref(false),
       name: '',
       race:'Humain',
-      race2: 'Acune',
+      race2: 'Aucune',
       job:'Aucune',
       job2: 'Aucune',
       races: [
+        'Humain',
+        'Elfe',
+        'Nain',
+        'Halfelin',
+        'Orc'
+      ],
+      races2: [
         'Aucune',
         'Humain',
         'Elfe',
@@ -206,23 +227,28 @@ export default defineComponent({
   methods: {
     ...mapActions('chars', ['addChar', 'clearState']),
     createUser() {
-      const newChar = {}
-      newChar.name = this.name
-      if(this.sex) {
-        newChar.sex = 'Femme'
+      if (this.name && (this.race != this.race2) && ((this.job != this.job2) && this.job != 'Aucune' || this.job2 == 'Aucune')) {
+        const newChar = {}
+        newChar.name = this.name
+        if(this.sex) {
+          newChar.sex = 'Femme'
+        }
+        else {
+          newChar.sex = 'Homme'
+        }
+        newChar.race = this.race
+        newChar.race2 = this.race2
+        newChar.job = this.job
+        newChar.job2 = this.job2
+        newChar.lvl = 1
+        newChar.bonus = 0
+        console.log('User :', newChar)
+        this.addChar(newChar)
+        this.create = false
       }
       else {
-        newChar.sex = 'Homme'
+        this.creationError = true
       }
-      newChar.race = this.race
-      newChar.race2 = this.race2
-      newChar.job = this.job
-      newChar.job2 = this.job2
-      newChar.lvl = 1
-      newChar.bonus = 0
-      console.log('User :', newChar)
-      this.addChar(newChar)
-      this.create = false
     },
     resetState() {
       this.clearState()
@@ -292,6 +318,10 @@ export default defineComponent({
     font-size: 2rem;
     margin-top: 20px;
     margin-bottom: 0px;
+  }
+  .error-msg {
+    color: red;
+    text-align: center;
   }
   .formField {
     width: 70%;
