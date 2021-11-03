@@ -38,7 +38,10 @@
         <q-dialog v-model="edRace" persistent class="dialog-container">
           <q-card class="dialog-box">
             <q-card-section class="column items-center">
-              <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
+              <q-avatar
+                icon="eva-edit-outline"
+                color="primary"
+                text-color="accent" />
               <q-select
                 class="q-my-md formField"
                 standout="bg-accent text-secondary"
@@ -53,8 +56,16 @@
                 label="Seconde race" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn flat label="Annuler" color="primary" v-close-popup />
-              <q-btn flat label="Confirmer" color="primary" @click="editRaces(char.id)"/>
+              <q-btn
+                flat
+                label="Annuler"
+                color="primary"
+                v-close-popup />
+              <q-btn
+                flat
+                label="Confirmer"
+                color="primary"
+                @click="editRaces(char.id)" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -63,7 +74,10 @@
         <q-dialog v-model="edJob" persistent class="dialog-container">
           <q-card class="dialog-box">
             <q-card-section class="column items-center">
-              <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
+              <q-avatar
+                icon="eva-edit-outline"
+                color="primary"
+                text-color="accent" />
               <q-select
                 class="q-my-md formField"
                 standout="bg-accent text-secondary"
@@ -78,8 +92,16 @@
                 label="Seconde race" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn flat label="Annuler" color="primary" v-close-popup />
-              <q-btn flat label="Confirmer" color="primary" @click="editJobs(char.id)"/>
+              <q-btn
+                flat
+                label="Annuler"
+                color="primary"
+                v-close-popup />
+              <q-btn
+                flat
+                label="Confirmer"
+                color="primary"
+                @click="editJobs(char.id)" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -96,10 +118,18 @@
                 <q-icon v-else name="female"/>
               </div>
               <div class="text-subtitle2 q-mb-sm">
-                <span>{{char.race}}</span>
-                <span v-if="char.race2 != 'Aucune'">/{{char.race2}}</span>
-                <span v-if="char.job != 'Aucune'" class="q-ml-xl">{{char.job}}</span>
-                <span v-if="char.job2 != 'Aucune'">/{{char.job2}}</span>
+                <span>
+                  {{char.race}}
+                </span>
+                <span v-if="char.race2 != 'Aucune'">
+                  /{{char.race2}}
+                </span>
+                <span v-if="char.job != 'Aucune'" class="q-ml-xl">
+                  {{char.job}}
+                </span>
+                <span v-if="char.job2 != 'Aucune'">
+                  /{{char.job2}}
+                </span>
               </div>
             </div>
           </div>
@@ -125,7 +155,7 @@
               </q-btn-group>
             </div>
           </div>
-          
+
           <!-- Adding lvl and bonuses to asses power -->
           <div class="power-box text-h6">
             PUISSANCE : {{char.bonus + char.lvl}}
@@ -134,7 +164,11 @@
 
         <!-- Fight button -->
         <q-card-actions>
-          <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
+          <q-btn
+            class="fight-btn"
+            color="primary"
+            icon-right="mdi-sword-cross"
+            label="Combat" />
         </q-card-actions>
       </q-card>
     </div>
@@ -155,13 +189,28 @@
       <q-dialog v-model="reset" persistent>
         <q-card>
           <q-card-section class="column items-center">
-            <q-avatar icon="mdi-skull-outline" color="primary" text-color="accent" />
-            <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir tuer tous les personnages créés ?<br/>Pas de retour possible...</span>
+            <q-avatar
+              icon="mdi-skull-outline"
+              color="primary"
+              text-color="accent" />
+            <span class="q-mt-md q-ml-sm">
+              Êtes-vous sûr de vouloir tuer tous les personnages créés ?
+              <br/>
+              Pas de retour possible...
+            </span>
           </q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="Annuler" color="primary" v-close-popup />
-            <q-btn flat label="Confirmer" color="primary" @click="resetState"/>
+            <q-btn
+              flat
+              label="Annuler"
+              color="primary"
+              v-close-popup />
+            <q-btn
+              flat
+              label="Confirmer"
+              color="primary"
+              @click="resetState" />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -199,7 +248,6 @@
               icon-right="eva-close-outline"
           />
           <q-card-section class="column items-center">
-            
             <q-input
               class="q-mt-xl formField"
               standout="bg-accent text-secondary"
@@ -329,7 +377,11 @@ export default defineComponent({
       this.job2 = 'Aucune'
     },
     createUser() {
-      if ((this.name && this.name.length < 11) && (this.race != this.race2) && ((this.job != this.job2) && this.job != 'Aucune' || this.job2 == 'Aucune')) {
+      if ((this.name && this.name.length < 11)
+          && (this.race != this.race2) 
+          && ((this.job != this.job2)
+              && this.job != 'Aucune'
+              || this.job2 == 'Aucune')) {
         const newChar = {}
         newChar.name = this.name.toUpperCase()
         newChar.sex = this.sex
