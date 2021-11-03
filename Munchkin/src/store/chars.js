@@ -12,6 +12,22 @@ const mutations = {
         console.log('payload : ', payload)
         state.chars.push(payload);
     },
+    racesEd(state, payload) {
+        for (let i=0; i<state.chars.length; i++) {
+            if (state.chars[i].id == payload.id) {
+                state.chars[i].race = payload.race
+                state.chars[i].race2 = payload.race2
+            }
+        }
+    },
+    jobsEd(state, payload) {
+        for (let i=0; i<state.chars.length; i++) {
+            if (state.chars[i].id == payload.id) {
+                state.chars[i].job = payload.job
+                state.chars[i].job2 = payload.job2
+            }
+        }
+    },
     charDel(state, payload) {
         let position
         for (let i=0; i<state.chars.length; i++) {
@@ -33,8 +49,16 @@ const actions = {
         console.log('adding char')
         commit('addChar', payload)
     },
+    racesEd({commit}, payload) {
+        console.log('edit races')
+        commit('racesEd', payload)
+    },
+    jobsEd({commit}, payload) {
+        console.log('edit jobs')
+        commit('jobsEd', payload)
+    },
     charDel({commit}, payload) {
-        console.log('resetting char store')
+        console.log('deleting a char')
         commit('charDel', payload)
     },
     clearState({commit}) {

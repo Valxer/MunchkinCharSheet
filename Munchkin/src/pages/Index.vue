@@ -1,20 +1,24 @@
 <template>
   <q-page class="flex flex-center page-container">
+
+    <!-- Phrase when no character is created -->
     <div v-if="!chars.length" class="background-txt">
       Ajoutez un joueur pour commencer
     </div>
 
+    <!-- Cards display section -->
     <div v-else class="cards-container">
       <q-card
         v-for="char in chars"
         :key="char.id"
         flat
         bordered
-        class="my-card bg-accent"
-      >
+        class="my-card bg-accent">
+
+        <!-- Menu allowing to modify a character -->
         <div class="menu-icon">
           <q-btn color="dark" round flat icon="eva-edit-outline">
-            <q-menu cover>
+            <q-menu cover auto-close>
               <q-list>
                 <q-item clickable @click="deleteChar(char.id)">
                   <q-item-section>Supprimmer personnage</q-item-section>
@@ -22,61 +26,65 @@
                 <q-item clickable @click="edRaces(char.race, char.race2)">
                   <q-item-section>Modifier races</q-item-section>
                 </q-item>
-                <q-dialog v-model="edRace" persistent class="dialog-container">
-                  <q-card class="dialog-box">
-                    <q-card-section class="column items-center">
-                      <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
-                      <q-select
-                        class="q-my-md formField"
-                        standout="bg-accent text-secondary"
-                        v-model="race"
-                        :options="races"
-                        label="Race" />
-                      <q-select
-                        class="q-mb-md formField"
-                        standout="bg-accent text-secondary"
-                        v-model="race2"
-                        :options="races2"
-                        label="Seconde race" />
-                    </q-card-section>
-
-                    <q-card-actions align="right">
-                      <q-btn flat label="Annuler" color="primary" v-close-popup />
-                      <q-btn flat label="Confirmer" color="primary" @click="editRaces"/>
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
                 <q-item clickable @click="edJobs(char.job, char.job2)">
                   <q-item-section>Modifier classes</q-item-section>
                 </q-item>
-                <q-dialog v-model="edJob" persistent class="dialog-container">
-                  <q-card class="dialog-box">
-                    <q-card-section class="column items-center">
-                      <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
-                      <q-select
-                        class="q-my-md formField"
-                        standout="bg-accent text-secondary"
-                        v-model="job"
-                        :options="jobs"
-                        label="Race" />
-                      <q-select
-                        class="q-mb-md formField"
-                        standout="bg-accent text-secondary"
-                        v-model="job2"
-                        :options="jobs"
-                        label="Seconde race" />
-                    </q-card-section>
-
-                    <q-card-actions align="right">
-                      <q-btn flat label="Annuler" color="primary" v-close-popup />
-                      <q-btn flat label="Confirmer" color="primary" @click="editJobs"/>
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
               </q-list>
             </q-menu>
           </q-btn>
         </div>
+
+        <!-- Modal form to edit races-->
+        <q-dialog v-model="edRace" persistent class="dialog-container">
+          <q-card class="dialog-box">
+            <q-card-section class="column items-center">
+              <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
+              <q-select
+                class="q-my-md formField"
+                standout="bg-accent text-secondary"
+                v-model="race"
+                :options="races"
+                label="Race" />
+              <q-select
+                class="q-mb-md formField"
+                standout="bg-accent text-secondary"
+                v-model="race2"
+                :options="races2"
+                label="Seconde race" />
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn flat label="Annuler" color="primary" v-close-popup />
+              <q-btn flat label="Confirmer" color="primary" @click="editRaces(char.id)"/>
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <!-- Modal form to edit jobs-->
+        <q-dialog v-model="edJob" persistent class="dialog-container">
+          <q-card class="dialog-box">
+            <q-card-section class="column items-center">
+              <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
+              <q-select
+                class="q-my-md formField"
+                standout="bg-accent text-secondary"
+                v-model="job"
+                :options="jobs"
+                label="Race" />
+              <q-select
+                class="q-mb-md formField"
+                standout="bg-accent text-secondary"
+                v-model="job2"
+                :options="jobs"
+                label="Seconde race" />
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn flat label="Annuler" color="primary" v-close-popup />
+              <q-btn flat label="Confirmer" color="primary" @click="editJobs(char.id)"/>
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <!-- Character description section -->
         <q-card-section class="char-box">
           <div class="row items-center no-wrap">
             <div class="col">
@@ -114,12 +122,14 @@
           <div class="power-box text-h6">PUISSANCE : {{char.bonus + char.lvl}}</div>
         </q-card-section>
 
+        <!-- Fight button -->
         <q-card-actions>
           <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
         </q-card-actions>
       </q-card>
     </div>
 
+    <!-- Reset button -->
     <q-page-sticky
       v-if="chars.length"
       position="bottom-left"
@@ -147,6 +157,8 @@
       </q-dialog>
     </q-page-sticky>
 
+
+    <!-- Add char button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
         fab
@@ -164,7 +176,10 @@
         label="Créer un joueur"
         @click="create = true"
       />
-      <q-dialog class="dialog-container" v-model="create" persistent>
+    </q-page-sticky>
+
+    <!-- Modal Form to create a new char -->
+    <q-dialog class="dialog-container" v-model="create" persistent>
         <q-card class="bg-secondary dialog-box">
           <q-btn
               class="close-btn"
@@ -231,7 +246,6 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-    </q-page-sticky>
   </q-page>
 </template>
 
@@ -295,7 +309,7 @@ export default defineComponent({
     ...mapState('chars', ['chars'])
   },
   methods: {
-    ...mapActions('chars', ['addChar', 'clearState', 'charDel']),
+    ...mapActions('chars', ['addChar', 'clearState', 'charDel', 'racesEd', 'jobsEd']),
     resetValues() {
       this.name = ''
       this.sex = false
@@ -324,6 +338,22 @@ export default defineComponent({
       else {
         this.creationError = true
       }
+    },
+    editRaces(id) {
+      const updatedRaces = {}
+      updatedRaces.id = id
+      updatedRaces.race = this.race
+      updatedRaces.race2 = this.race2
+      this.racesEd(updatedRaces)
+      this.edRace = false
+    },
+    editJobs(id) {
+      const updatedJobs = {}
+      updatedJobs.id = id
+      updatedJobs.job = this.job
+      updatedJobs.job2 = this.job2
+      this.jobsEd(updatedJobs)
+      this.edJob = false
     },
     deleteChar(id) {
       this.charDel(id)
