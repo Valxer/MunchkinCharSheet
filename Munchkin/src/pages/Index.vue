@@ -86,6 +86,8 @@
 
         <!-- Character description section -->
         <q-card-section class="char-box">
+
+          <!-- name, races and classes of character -->
           <div class="row items-center no-wrap">
             <div class="col">
               <div class="text-h4">
@@ -101,6 +103,8 @@
               </div>
             </div>
           </div>
+
+          <!-- Level box -->
           <div class="stat-section">
             <div class="box1">
               <div class="text-subtitle2">Niveau</div>
@@ -110,6 +114,8 @@
                 <q-btn icon="eva-plus-outline" color="primary"/>
               </q-btn-group>
             </div>
+
+            <!-- Bonus box -->
             <div>
               <div class="text-subtitle2">Bonus</div>
               <q-btn-group class="stat-box bg-secondary">
@@ -119,7 +125,11 @@
               </q-btn-group>
             </div>
           </div>
-          <div class="power-box text-h6">PUISSANCE : {{char.bonus + char.lvl}}</div>
+          
+          <!-- Adding lvl and bonuses to asses power -->
+          <div class="power-box text-h6">
+            PUISSANCE : {{char.bonus + char.lvl}}
+          </div>
         </q-card-section>
 
         <!-- Fight button -->
