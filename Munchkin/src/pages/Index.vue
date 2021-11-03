@@ -7,11 +7,28 @@
     <div v-else class="cards-container">
       <q-card
         v-for="char in chars"
-        :key="char.name"
+        :key="char.id"
         flat
         bordered
         class="my-card bg-accent"
       >
+        <div class="menu-icon">
+          <q-btn color="dark" round flat icon="eva-edit-outline">
+            <q-menu cover auto-close>
+              <q-list>
+                <q-item clickable @click="deleteChar(char.id)">
+                  <q-item-section>Supprimmer personnage</q-item-section>
+                </q-item>
+                <q-item clickable @click="edRace = true">
+                  <q-item-section>Modifier races</q-item-section>
+                </q-item>
+                <q-item clickable @click="edJob = true">
+                  <q-item-section>Modifier classes</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
         <q-card-section class="char-box">
           <div class="row items-center no-wrap">
             <div class="col">
@@ -182,6 +199,9 @@ export default defineComponent({
       creationError: false,
       create: ref(false),
       reset: ref(false),
+      delChar: ref(false),
+      edRace: ref(false),
+      edJob: ref(false),
       //form storage
       sex: ref(false),
       name: '',
@@ -228,7 +248,7 @@ export default defineComponent({
     ...mapState('chars', ['chars'])
   },
   methods: {
-    ...mapActions('chars', ['addChar', 'clearState']),
+    ...mapActions('chars', ['addChar', 'clearState', 'charDel']),
     resetValues() {
       this.name = ''
       this.sex = false
@@ -258,6 +278,9 @@ export default defineComponent({
         this.creationError = true
       }
     },
+    deleteChar(id) {
+      this.charDel(id)
+    },
     resetState() {
       this.clearState()
       this.reset = false
@@ -282,6 +305,16 @@ export default defineComponent({
     @media (max-width: $breakpoint-xs-max){
         max-width: 365px;
         min-width: 250px;
+    }
+  }
+  .menu-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    &:hover {
+      border-radius: 50px;
+      background-color: darken($color: $accent, $amount: 5);
     }
   }
   .char-box {
