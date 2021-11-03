@@ -139,9 +139,17 @@
             <div class="box1">
               <div class="text-subtitle2">Niveau</div>
               <q-btn-group class="stat-box bg-secondary">
-                <q-btn icon="eva-minus-outline" color="primary"/>
-                <span>{{char.lvl}}</span>
-                <q-btn icon="eva-plus-outline" color="primary"/>
+                <q-btn
+                  icon="eva-minus-outline"
+                  color="primary"
+                  @click="subLvl(char.id)" />
+                <span class="text-h6">
+                  {{char.lvl}}
+                </span>
+                <q-btn
+                  icon="eva-plus-outline"
+                  color="primary"
+                  @click="addLvl(char.id)" />
               </q-btn-group>
             </div>
 
@@ -149,9 +157,17 @@
             <div>
               <div class="text-subtitle2">Bonus</div>
               <q-btn-group class="stat-box bg-secondary">
-                <q-btn icon="eva-minus-outline" color="primary"/>
-                <span>{{char.bonus}}</span>
-                <q-btn icon="eva-plus-outline" color="primary"/>
+                <q-btn
+                  icon="eva-minus-outline"
+                  color="primary"
+                  @click="subBonus(char.id)" />
+                <span class="text-h6">
+                  {{char.bonus}}
+                </span>
+                <q-btn
+                  icon="eva-plus-outline"
+                  color="primary"
+                  @click="addBonus(char.id)" />
               </q-btn-group>
             </div>
           </div>
@@ -367,7 +383,8 @@ export default defineComponent({
     ...mapState('chars', ['chars'])
   },
   methods: {
-    ...mapActions('chars', ['addChar', 'clearState', 'charDel', 'racesEd', 'jobsEd']),
+    ...mapActions('chars', ['addChar', 'clearState', 'charDel',
+        'racesEd', 'jobsEd', 'addLvl', 'subLvl', 'addBonus', 'subBonus']),
     resetValues() {
       this.name = ''
       this.sex = false
