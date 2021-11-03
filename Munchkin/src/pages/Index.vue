@@ -14,17 +14,65 @@
       >
         <div class="menu-icon">
           <q-btn color="dark" round flat icon="eva-edit-outline">
-            <q-menu cover auto-close>
+            <q-menu cover>
               <q-list>
                 <q-item clickable @click="deleteChar(char.id)">
                   <q-item-section>Supprimmer personnage</q-item-section>
                 </q-item>
-                <q-item clickable @click="edRace = true">
+                <q-item clickable @click="edRaces(char.race, char.race2)">
                   <q-item-section>Modifier races</q-item-section>
                 </q-item>
-                <q-item clickable @click="edJob = true">
+                <q-dialog v-model="edRace" persistent class="dialog-container">
+                  <q-card class="dialog-box">
+                    <q-card-section class="column items-center">
+                      <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
+                      <q-select
+                        class="q-my-md formField"
+                        standout="bg-accent text-secondary"
+                        v-model="race"
+                        :options="races"
+                        label="Race" />
+                      <q-select
+                        class="q-mb-md formField"
+                        standout="bg-accent text-secondary"
+                        v-model="race2"
+                        :options="races2"
+                        label="Seconde race" />
+                    </q-card-section>
+
+                    <q-card-actions align="right">
+                      <q-btn flat label="Annuler" color="primary" v-close-popup />
+                      <q-btn flat label="Confirmer" color="primary" @click="editRaces"/>
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
+                <q-item clickable @click="edJobs(char.job, char.job2)">
                   <q-item-section>Modifier classes</q-item-section>
                 </q-item>
+                <q-dialog v-model="edJob" persistent class="dialog-container">
+                  <q-card class="dialog-box">
+                    <q-card-section class="column items-center">
+                      <q-avatar icon="eva-edit-outline" color="primary" text-color="accent" />
+                      <q-select
+                        class="q-my-md formField"
+                        standout="bg-accent text-secondary"
+                        v-model="job"
+                        :options="jobs"
+                        label="Race" />
+                      <q-select
+                        class="q-mb-md formField"
+                        standout="bg-accent text-secondary"
+                        v-model="job2"
+                        :options="jobs"
+                        label="Seconde race" />
+                    </q-card-section>
+
+                    <q-card-actions align="right">
+                      <q-btn flat label="Annuler" color="primary" v-close-popup />
+                      <q-btn flat label="Confirmer" color="primary" @click="editJobs"/>
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </q-list>
             </q-menu>
           </q-btn>
@@ -199,7 +247,6 @@ export default defineComponent({
       creationError: false,
       create: ref(false),
       reset: ref(false),
-      delChar: ref(false),
       edRace: ref(false),
       edJob: ref(false),
       //form storage
@@ -284,6 +331,16 @@ export default defineComponent({
     resetState() {
       this.clearState()
       this.reset = false
+    },
+    edJobs(job, job2) {
+      this.job = job
+      this.job2 = job2
+      this.edJob = true
+    },
+    edRaces(race, race2) {
+      this.race = race
+      this.race2 = race2
+      this.edRace = true
     }
   }
 })
