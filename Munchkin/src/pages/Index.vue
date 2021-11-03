@@ -441,7 +441,6 @@ export default defineComponent({
       }
     },
     editRaces(id) {
-      console.log('ID : ',id)
       if (this.race != this.race2) {
         const updatedRaces = {}
         updatedRaces.id = id
