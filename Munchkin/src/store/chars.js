@@ -9,7 +9,6 @@ const mutations = {
             newId =  state.chars[i].id + 1
         }
         payload.id = newId
-        console.log('payload : ', payload)
         state.chars.push(payload);
     },
     racesEd(state, payload) {
@@ -62,7 +61,7 @@ const actions = {
         commit('charDel', payload)
     },
     clearState({commit}) {
-        console.log('resetting char store')
+        console.log('deleting all chars')
         commit('clearState')
     }
 }

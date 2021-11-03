@@ -391,7 +391,6 @@ export default defineComponent({
         newChar.job2 = this.job2
         newChar.lvl = 1
         newChar.bonus = 0
-        console.log('User :', newChar)
         this.addChar(newChar)
         this.resetValues()
         this.create = false
