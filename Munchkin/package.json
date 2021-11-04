@@ -13,6 +13,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
     "quasar": "^2.0.0",
     "vuex": "^4.0.1",
     "vuex-persistedstate": "^4.1.0"
