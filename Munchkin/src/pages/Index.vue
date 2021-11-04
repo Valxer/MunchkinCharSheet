@@ -199,6 +199,7 @@
         <!-- Fight button -->
         <q-card-actions>
           <q-btn
+            @click="goToFight(char.id)"
             class="fight-btn"
             color="primary"
             icon-right="mdi-sword-cross"
@@ -347,7 +348,7 @@ import { ref } from 'vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default defineComponent({
-  name: 'PageIndex',
+  name: 'home',
   data() {
     return {
       creationError: false,
@@ -489,6 +490,14 @@ export default defineComponent({
       this.race = race
       this.race2 = race2
       this.edRace = true
+    },
+    goToFight(id) {
+      this.$router.push({
+        name: 'fight',
+        params: {
+          id: id
+        }
+      })
     }
   }
 })
