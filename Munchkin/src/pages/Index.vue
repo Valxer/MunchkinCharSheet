@@ -1,60 +1,214 @@
 <template>
   <q-page class="flex flex-center page-container">
+
+    <!-- Phrase when no character is created -->
     <div v-if="!chars.length" class="background-txt">
       Ajoutez un joueur pour commencer
     </div>
 
+    <!-- Cards display section -->
     <div v-else class="cards-container">
+      <!-- Ajouter les options de tri-->
       <q-card
-        v-for="char in chars"
-        :key="char.name"
+        v-for="char in chars"    
+        :key="char.id"
         flat
         bordered
-        class="my-card bg-accent"
-      >
+        class="my-card bg-accent">
+
+        <!-- Menu allowing to modify a character -->
+        <div class="menu-icon">
+          <q-btn color="primary" round flat icon="eva-edit-outline">
+            <q-menu cover auto-close>
+              <q-list>
+                <q-item clickable @click="deleteChar(char.id)">
+                  <q-item-section>Supprimmer personnage</q-item-section>
+                </q-item>
+                <q-item clickable @click="edRaces(char.id, char.race, char.race2)">
+                  <q-item-section>Modifier races</q-item-section>
+                </q-item>
+                <q-item clickable @click="edJobs(char.id, char.job, char.job2)">
+                  <q-item-section>Modifier classes</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
+
+        <!-- Modal form to edit races-->
+        <q-dialog v-model="edRace" persistent class="dialog-container">
+          <q-card class="dialog-box">
+            <q-btn
+              class="close-btn"
+              v-close-popup
+              text-color="dark"
+              flat
+              icon-right="eva-close-outline"
+            />
+            <q-card-section class="column items-center q-mt-sm">
+              <q-avatar
+                icon="eva-edit-outline"
+                color="primary"
+                text-color="accent" />
+              <q-select
+                class="q-my-md formField"
+                standout="bg-accent text-secondary"
+                v-model="race"
+                :options="races"
+                label="Race" />
+              <q-select
+                class="q-mb-md formField"
+                standout="bg-accent text-secondary"
+                v-model="race2"
+                :options="races2"
+                label="Seconde race" />
+            </q-card-section>
+            <div v-if="edRaceError" class="error-msg">
+              Informations incorrectes :<br/>
+              Les deux races doivent être différentes<br/>
+            </div>
+            <q-card-actions align="center" class="q-mb-md">
+              <q-btn
+                flat
+                label="Confirmer"
+                color="primary"
+                @click="editRaces(id)" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <!-- Modal form to edit jobs-->
+        <q-dialog v-model="edJob" persistent class="dialog-container">
+          <q-card class="dialog-box">
+            <q-btn
+              class="close-btn"
+              v-close-popup
+              text-color="dark"
+              flat
+              icon-right="eva-close-outline"
+            />
+            <q-card-section class="column items-center q-mt-sm">
+              <q-avatar
+                icon="eva-edit-outline"
+                color="primary"
+                text-color="accent" />
+              <q-select
+                class="q-my-md formField"
+                standout="bg-accent text-secondary"
+                v-model="job"
+                :options="jobs"
+                label="Race" />
+              <q-select
+                class="q-mb-md formField"
+                standout="bg-accent text-secondary"
+                v-model="job2"
+                :options="jobs"
+                label="Seconde race" />
+            </q-card-section>
+            <div v-if="edJobError" class="error-msg">
+              Informations incorrectes :<br/>
+              Les deux classes doivent être différentes<br/>
+              La deuxième classe ne peut pas exister sans première classe
+            </div>
+            <q-card-actions align="center" class="q-mb-md">
+              <q-btn
+                flat
+                label="Confirmer"
+                color="primary"
+                @click="editJobs(id)" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <!-- Character description section -->
         <q-card-section class="char-box">
+
+          <!-- name, races and classes of character -->
           <div class="row items-center no-wrap">
             <div class="col">
-              <div class="text-h4">
+              <div class="text-h4 name-box">
                 {{char.name}}
-                <q-icon v-if="!char.sex" name="male"/>
-                <q-icon v-else name="female"/>
+                <q-icon class="text-h5 q-ml-sm" v-if="!char.sex" name="male"/>
+                <q-icon class="text-h5 q-ml-sm" v-else name="female"/>
               </div>
               <div class="text-subtitle2 q-mb-sm">
-                <span>{{char.race}}</span>
-                <span v-if="char.race2 != 'Aucune'">/{{char.race2}}</span>
-                <span v-if="char.job != 'Aucune'" class="q-ml-xl">{{char.job}}</span>
-                <span v-if="char.job2 != 'Aucune'">/{{char.job2}}</span>
+                <div class="race-block">
+                  <span>
+                    {{char.race}}
+                  </span>
+                  <span v-if="char.race2 != 'Aucune'">
+                    /{{char.race2}}
+                  </span>
+                </div>
+                <div class="job-block q-mb-md">
+                  <span v-if="char.job != 'Aucune'">
+                    {{char.job}}
+                  </span>
+                  <span v-if="char.job2 != 'Aucune'">
+                    /{{char.job2}}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Level box -->
           <div class="stat-section">
             <div class="box1">
               <div class="text-subtitle2">Niveau</div>
               <q-btn-group class="stat-box bg-secondary">
-                <q-btn icon="eva-minus-outline" color="primary"/>
-                <span>{{char.lvl}}</span>
-                <q-btn icon="eva-plus-outline" color="primary"/>
+                <q-btn
+                  icon="eva-minus-outline"
+                  color="primary"
+                  @click="subLvl(char.id)" />
+                <span class="text-h6">
+                  {{char.lvl}}
+                </span>
+                <q-btn
+                  icon="eva-plus-outline"
+                  color="primary"
+                  @click="addLvl(char.id)" />
               </q-btn-group>
             </div>
+
+            <!-- Bonus box -->
             <div>
               <div class="text-subtitle2">Bonus</div>
               <q-btn-group class="stat-box bg-secondary">
-                <q-btn icon="eva-minus-outline" color="primary"/>
-                <span>{{char.bonus}}</span>
-                <q-btn icon="eva-plus-outline" color="primary"/>
+                <q-btn
+                  icon="eva-minus-outline"
+                  color="primary"
+                  @click="subBonus(char.id)" />
+                <span class="text-h6">
+                  {{char.bonus}}
+                </span>
+                <q-btn
+                  icon="eva-plus-outline"
+                  color="primary"
+                  @click="addBonus(char.id)" />
               </q-btn-group>
             </div>
           </div>
-          <div class="power-box text-h6">PUISSANCE : {{char.bonus + char.lvl}}</div>
+
+          <!-- Adding lvl and bonuses to asses power -->
+          <div class="power-box text-h6">
+            PUISSANCE : {{char.power}}
+          </div>
         </q-card-section>
 
+        <!-- Fight button -->
         <q-card-actions>
-          <q-btn class="fight-btn" color="primary" icon-right="mdi-sword-cross" label="Combat" />
+          <q-btn
+            @click="goToFight(char.id)"
+            class="fight-btn"
+            color="primary"
+            icon-right="mdi-sword-cross"
+            label="Combat" />
         </q-card-actions>
       </q-card>
     </div>
 
+    <!-- Reset button -->
     <q-page-sticky
       v-if="chars.length"
       position="bottom-left"
@@ -70,18 +224,35 @@
       <q-dialog v-model="reset" persistent>
         <q-card>
           <q-card-section class="column items-center">
-            <q-avatar icon="mdi-skull-outline" color="primary" text-color="accent" />
-            <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir tuer tous les personnages créés ?<br/>Pas de retour possible...</span>
+            <q-avatar
+              icon="mdi-skull-outline"
+              color="primary"
+              text-color="accent" />
+            <span class="q-mt-md q-ml-sm">
+              Êtes-vous sûr de vouloir tuer tous les personnages créés ?
+              <br/>
+              Pas de retour possible...
+            </span>
           </q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="Annuler" color="primary" v-close-popup />
-            <q-btn flat label="Confirmer" color="primary" @click="resetState"/>
+            <q-btn
+              flat
+              label="Annuler"
+              color="primary"
+              v-close-popup />
+            <q-btn
+              flat
+              label="Confirmer"
+              color="primary"
+              @click="resetState" />
           </q-card-actions>
         </q-card>
       </q-dialog>
     </q-page-sticky>
 
+
+    <!-- Add char button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
         fab
@@ -99,7 +270,10 @@
         label="Créer un joueur"
         @click="create = true"
       />
-      <q-dialog class="dialog-container" v-model="create" persistent>
+    </q-page-sticky>
+
+    <!-- Modal Form to create a new char -->
+    <q-dialog class="dialog-container" v-model="create" persistent>
         <q-card class="bg-secondary dialog-box">
           <q-btn
               class="close-btn"
@@ -109,7 +283,6 @@
               icon-right="eva-close-outline"
           />
           <q-card-section class="column items-center">
-            
             <q-input
               class="q-mt-xl formField"
               standout="bg-accent text-secondary"
@@ -166,24 +339,28 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { ref } from 'vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default defineComponent({
-  name: 'PageIndex',
+  name: 'home',
   data() {
     return {
       creationError: false,
       create: ref(false),
+      edJob: ref(false),
+      edJobError: false,
+      edRace: ref(false),
+      edRaceError: false,
       reset: ref(false),
       //form storage
       sex: ref(false),
+      id: '',
       name: '',
       race:'Humain',
       race2: 'Aucune',
@@ -225,20 +402,30 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapState('chars', ['chars'])
+    ...mapState('chars', ['chars']),
+    ...mapGetters('chars', ['lvlSortedChars', 'powerSortedChars'])
   },
   methods: {
-    ...mapActions('chars', ['addChar', 'clearState']),
+    ...mapActions('chars', ['addChar', 'clearState', 'charDel',
+        'racesEd', 'jobsEd', 'addLvl', 'subLvl', 'addBonus', 'subBonus']),
     resetValues() {
+      this.id = ''
       this.name = ''
       this.sex = false
       this.race = 'Humain'
       this.race2 = 'Aucune'
       this.job = 'Aucune'
       this.job2 = 'Aucune'
+      this.creationError = false
+      this.edRaceError = false
+      this.edJobError = false
     },
     createUser() {
-      if ((this.name && this.name.length < 11) && (this.race != this.race2) && ((this.job != this.job2) && this.job != 'Aucune' || this.job2 == 'Aucune')) {
+      if ((this.name && this.name.length < 11)
+          && (this.race != this.race2) 
+          && ((this.job != this.job2)
+              && this.job != 'Aucune'
+              || this.job2 == 'Aucune')) {
         const newChar = {}
         newChar.name = this.name.toUpperCase()
         newChar.sex = this.sex
@@ -248,19 +435,69 @@ export default defineComponent({
         newChar.job2 = this.job2
         newChar.lvl = 1
         newChar.bonus = 0
-        console.log('User :', newChar)
+        newChar.power = 1
         this.addChar(newChar)
         this.resetValues()
         this.create = false
-
       }
       else {
         this.creationError = true
       }
     },
+    editRaces(id) {
+      if (this.race != this.race2) {
+        const updatedRaces = {}
+        updatedRaces.id = id
+        updatedRaces.race = this.race
+        updatedRaces.race2 = this.race2
+        this.racesEd(updatedRaces)
+        this.resetValues()
+        this.edRace = false
+      }
+      else {
+        this.edRaceError = true
+      }
+    },
+    editJobs(id) {
+      if ((this.job != this.job2) && this.job != 'Aucune' || this.job2 == 'Aucune') {
+        const updatedJobs = {}
+        updatedJobs.id = id
+        updatedJobs.job = this.job
+        updatedJobs.job2 = this.job2
+        this.jobsEd(updatedJobs)
+        this.resetValues()
+        this.edJob = false
+      }
+      else {
+        this.edJobError = true
+      }
+    },
+    deleteChar(id) {
+      this.charDel(id)
+    },
     resetState() {
       this.clearState()
       this.reset = false
+    },
+    edJobs(id, job, job2) {
+      this.id = id
+      this.job = job
+      this.job2 = job2
+      this.edJob = true
+    },
+    edRaces(id, race, race2) {
+      this.id = id
+      this.race = race
+      this.race2 = race2
+      this.edRace = true
+    },
+    goToFight(id) {
+      this.$router.push({
+        name: 'fight',
+        params: {
+          id: id
+        }
+      })
     }
   }
 })
@@ -272,6 +509,8 @@ export default defineComponent({
     color: $primary;
   }
   .cards-container {
+    margin-top: 25px;
+    margin-bottom: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -284,8 +523,23 @@ export default defineComponent({
         min-width: 250px;
     }
   }
+  .menu-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    &:hover {
+      border-radius: 50px;
+      background-color: darken($color: $accent, $amount: 5);
+    }
+  }
   .char-box {
     padding-bottom: 5px;
+  }
+  .name-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .stat-section {
     display: flex;
