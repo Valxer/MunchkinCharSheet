@@ -8,8 +8,9 @@
 
     <!-- Cards display section -->
     <div v-else class="cards-container">
+      <!-- Ajouter les options de tri-->
       <q-card
-        v-for="char in chars"
+        v-for="char in chars"    
         :key="char.id"
         flat
         bordered
@@ -191,7 +192,7 @@
 
           <!-- Adding lvl and bonuses to asses power -->
           <div class="power-box text-h6">
-            PUISSANCE : {{char.bonus + char.lvl}}
+            PUISSANCE : {{char.power}}
           </div>
         </q-card-section>
 
@@ -343,7 +344,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { ref } from 'vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'PageIndex',
@@ -400,7 +401,8 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapState('chars', ['chars'])
+    ...mapState('chars', ['chars']),
+    ...mapGetters('chars', ['lvlSortedChars', 'powerSortedChars'])
   },
   methods: {
     ...mapActions('chars', ['addChar', 'clearState', 'charDel',
@@ -432,6 +434,7 @@ export default defineComponent({
         newChar.job2 = this.job2
         newChar.lvl = 1
         newChar.bonus = 0
+        newChar.power = 1
         this.addChar(newChar)
         this.resetValues()
         this.create = false

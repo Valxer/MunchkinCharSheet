@@ -1,5 +1,16 @@
+import _ from 'lodash'
+
 const state = {
     chars: []
+}
+
+const getters = {
+    lvlSortedChars: state => {
+        return _.orderBy(state.chars, ['lvl', 'power'], ['desc', 'desc'])
+    },
+    powerSortedChars: state => {
+        return _.orderBy(state.chars, ['power', 'lvl'], ['desc', 'desc'])
+    }
 }
 
 const mutations = {
@@ -33,6 +44,7 @@ const mutations = {
         for (let i=0; i<state.chars.length; i++) {
             if (state.chars[i].id == payload) {
                 state.chars[i].lvl++
+                state.chars[i].power++
                 break
             }
         }
@@ -40,8 +52,10 @@ const mutations = {
     subLvl(state, payload) {
         for (let i=0; i<state.chars.length; i++) {
             if (state.chars[i].id == payload) {
-                if(state.chars[i].lvl > 1)
+                if(state.chars[i].lvl > 1) {
                     state.chars[i].lvl--
+                    state.chars[i].power--
+                }
                 break
             }
         }
@@ -50,6 +64,7 @@ const mutations = {
         for (let i=0; i<state.chars.length; i++) {
             if (state.chars[i].id == payload) {
                 state.chars[i].bonus++
+                state.chars[i].power++
                 break
             }
         }
@@ -57,8 +72,10 @@ const mutations = {
     subBonus(state, payload) {
         for (let i=0; i<state.chars.length; i++) {
             if (state.chars[i].id == payload) {
-                if(state.chars[i].bonus > 0)
+                if(state.chars[i].bonus > 0){
                     state.chars[i].bonus--
+                    state.chars[i].power--
+                }
                 break
             }
         }
@@ -121,6 +138,7 @@ const actions = {
 export default {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions
 }
