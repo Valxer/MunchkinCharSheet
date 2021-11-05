@@ -1,10 +1,4 @@
 // app global css in SCSS form
-body {
-    background-image: url("../assets/istockphoto-612833834-612x612.jpg");
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
 
 .phone-only {
     @media (max-width: $breakpoint-xs-max){
@@ -25,7 +19,17 @@ body {
 }
 
 .page-container {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    &.home {
+        background-image: url("../assets/istockphoto-612833834-612x612.jpg");
+        
+    }
+    &.fight {
+        background-image: url("../assets/232291-top-papyrus-background-1920x1080-for-retina.jpg");
+    }
   }
