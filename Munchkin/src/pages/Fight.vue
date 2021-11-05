@@ -2,14 +2,26 @@
   <q-page class="fight flex flex-center page-container fight">
     <div>
       <fightCard v-if="idFetched" :key="id" v-bind:char="char" />
-      <q-btn
-        class="q-mt-xl"
-        color="secondary"
-        text-color="primary"
-        to="/"
-        label="Annuler le Combat"
-        no-caps
-      />
+      <q-page-sticky position="bottom-left" :offset="[30,30]">
+        <q-btn
+          class="q-mt-xl"
+          color="secondary"
+          text-color="primary"
+          to="/"
+          label="Annuler"
+          no-caps
+        />
+      </q-page-sticky>
+      <q-page-sticky position="bottom-right" :offset="[30,30]">
+        <q-btn
+          class="q-mt-xl"
+          color="secondary"
+          text-color="primary"
+          to="/"
+          label="Valider"
+          no-caps
+        />
+      </q-page-sticky>
     </div>
   </q-page>
 </template>
