@@ -110,30 +110,30 @@
         <q-card-section class="char-box">
 
             <!-- name, races and classes of character -->
-            <div class="row items-center no-wrap">
+            <div class="row items-center no-wrap char-name">
             <div class="col">
                 <div class="text-h4 name-box">
                 {{char.name}}
                 <q-icon class="text-h5 q-ml-sm" v-if="!char.sex" name="male"/>
                 <q-icon class="text-h5 q-ml-sm" v-else name="female"/>
                 </div>
-                <div class="text-subtitle2 q-mb-sm">
-                <div class="race-block">
-                    <span>
-                    {{char.race}}
-                    </span>
-                    <span v-if="char.race2 != 'Aucune'">
-                    /{{char.race2}}
-                    </span>
-                </div>
-                <div class="job-block q-mb-md">
-                    <span v-if="char.job != 'Aucune'">
-                    {{char.job}}
-                    </span>
-                    <span v-if="char.job2 != 'Aucune'">
-                    /{{char.job2}}
-                    </span>
-                </div>
+                <div class="text-subtitle2 q-my-sm">
+                  <div class="race-block">
+                      <span>
+                      {{char.race}}
+                      </span>
+                      <span v-if="char.race2 != 'Aucune'">
+                      /{{char.race2}}
+                      </span>
+                  </div>
+                  <div class="job-block q-mb-sm">
+                      <span v-if="char.job != 'Aucune'">
+                      {{char.job}}
+                      </span>
+                      <span v-if="char.job2 != 'Aucune'">
+                      /{{char.job2}}
+                      </span>
+                  </div>
                 </div>
             </div>
             </div>
@@ -330,6 +330,15 @@ export default defineComponent({
   }
   .char-box {
     padding-bottom: 5px;
+  }
+  .char-name {
+    height: 100px;
+    &>div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+    }
   }
   .name-box {
     display: flex;

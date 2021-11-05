@@ -91,22 +91,22 @@
 
     <!-- Add char button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        fab
-        class="phone-only"
-        icon="eva-plus-outline"
-        color="primary"
-        text-color="secondary"
-        @click="create = true"
-      />
-      <q-btn
-        class="desktop-only text-bold create-btn"
-        text-color="secondary"
-        color="primary"
-        icon-right="eva-plus-outline"
-        label="Créer un joueur"
-        @click="create = true"
-      />
+        <q-btn
+          fab
+          class="phone-only"
+          icon="eva-plus-outline"
+          color="primary"
+          text-color="secondary"
+          @click="create = true"
+        />
+        <q-btn
+          class="desktop-only text-bold create-btn"
+          text-color="secondary"
+          color="primary"
+          icon-right="eva-plus-outline"
+          label="Créer un joueur"
+          @click="create = true"
+        />
     </q-page-sticky>
 
     <!-- Modal Form to create a new char -->
@@ -317,6 +317,8 @@ export default defineComponent({
   }
   .create-btn {
     height: 45px;
+    display: flex;
+    align-items: center;
   }
   .close-btn {
     position: absolute;
