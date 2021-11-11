@@ -20,7 +20,7 @@ const mutations = {
             newId =  state.chars[i].id + 1
         }
         payload.id = newId
-        state.chars.push(payload);
+        state.chars.push(payload)
     },
     racesEd(state, payload) {
         for (let i=0; i<state.chars.length; i++) {
