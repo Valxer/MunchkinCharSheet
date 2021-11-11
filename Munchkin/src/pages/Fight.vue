@@ -1,8 +1,20 @@
 <template>
-  <q-page class="fight flex flex-center page-container fight">
-    <div>
-      <fightCard v-if="idFetched" :key="id" v-bind:char="char" />
-      <q-page-sticky position="bottom-left" :offset="[30,30]">
+  <q-page class="fight flex flex-center page-container">
+    <div class="fighters versus-box">
+      <fightCard
+        v-if="idFetched"
+        :key="id"
+        v-bind:char="char"
+        class="fighter" />  
+    </div>
+    <div class="monsters versus-box">
+      <ul class="monster">
+        <li>dsq</li>
+        <li>sss</li>
+        <li>qsqq</li>
+      </ul>
+    </div>
+    <q-page-sticky position="bottom-left" :offset="[30,30]">
         <q-btn
           class="q-mt-xl"
           color="secondary"
@@ -22,7 +34,6 @@
           no-caps
         />
       </q-page-sticky>
-    </div>
   </q-page>
 </template>
 
@@ -33,6 +44,10 @@ import { mapState } from "vuex";
 
 export default defineComponent({
   name: "fight",
+  data() {
+    return {
+    }
+  },
   components: {
     fightCard,
   },
@@ -61,3 +76,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+  .fight {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .monster {
+    background-color: $accent;
+  }
+</style>
