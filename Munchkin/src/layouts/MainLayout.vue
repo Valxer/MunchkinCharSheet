@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated v-if="isHome">
       <q-toolbar>
         <q-toolbar-title class="title q-my-md">
           Munchkin Character Sheet
@@ -18,7 +18,12 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'MainLayout'
+  name: 'MainLayout',
+  computed: {
+    isHome() {
+      return this.$route.name == 'home'
+    }
+  }
 })
 </script>
 
