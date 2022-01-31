@@ -10,6 +10,9 @@ La gestion de ces niveaux est manuelle permettant ainsi aux joueurs de tricher e
 + Permettre de trier les personnages selon différents critères : date de création, niveau et puissance totale.
 + Permettre de reset la partie rapidement.
 
+## Accès
+L'application est hébergée sur netlify à cette adresse : https://munchkincharsheet.netlify.app/
+
 ## Installation
 1. Cloner le repository avec ``git clone https://github.com/Valxer/MunchkinCharSheet.git``
 2. Ouvrir le dossier avec VSCode
