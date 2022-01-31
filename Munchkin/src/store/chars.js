@@ -22,6 +22,14 @@ const mutations = {
         payload.id = newId
         state.chars.push(payload)
     },
+    sexChange(state, payload) {
+        for (let i=0; i<state.chars.length; i++) {
+            if (state.chars[i].id == payload.id) {
+                state.chars[i].sex = !state.chars[i].sex
+                break
+            }
+        }
+    },
     racesEd(state, payload) {
         for (let i=0; i<state.chars.length; i++) {
             if (state.chars[i].id == payload.id) {
@@ -100,6 +108,10 @@ const actions = {
     addChar({commit}, payload) {
         // console.log('adding char')
         commit('addChar', payload)
+    },
+    sexChange({commit}, payload) {
+        // console.log('changing sex')
+        commit('sexChange', payload)
     },
     racesEd({commit}, payload) {
         // console.log('edit races')

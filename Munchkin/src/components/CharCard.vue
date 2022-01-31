@@ -7,6 +7,9 @@
             <q-item clickable @click="deleteChar(char.id)">
               <q-item-section>Supprimmer personnage</q-item-section>
             </q-item>
+            <q-item clickable @click="changeSex(char.id)">
+              <q-item-section>Changer de sexe</q-item-section>
+            </q-item>
             <q-item clickable @click="edRaces(char.id, char.race, char.race2)">
               <q-item-section>Modifier races</q-item-section>
             </q-item>
@@ -17,6 +20,28 @@
         </q-menu>
       </q-btn>
     </div>
+
+    <!-- Modal to change sex -->
+    <q-dialog v-model="edSex" persistent class="dialog-container">
+      <q-card class="dialog-box">
+        <q-card-section class="column items-center">
+          <q-avatar
+              icon="mdi-gender-male-female"
+              color="primary"
+              text-color="accent"
+          />
+          <span class= "q-mt-md q-ml-sm">
+            Êtes-vous sûr de vouloir chager de sexe ?
+            <br />
+            Assurez vous d'avoir mûrement réfléchi !
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Annuler" color="primary" v-close-popup />
+          <q-btn flat label="Confirmer" color="primary" @click="editSex(id)" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
     <!-- Modal form to edit races-->
     <q-dialog v-model="edRace" persistent class="dialog-container">
@@ -178,17 +203,6 @@
       <!-- Adding lvl and bonuses to asses power -->
       <div class="power-box text-h6">PUISSANCE : {{ char.power }}</div>
     </q-card-section>
-
-    <!-- Fight button -->
-    <q-card-actions>
-      <q-btn
-        @click="goToFight(char.id)"
-        class="fight-btn"
-        color="primary"
-        icon-right="mdi-sword-cross"
-        label="Combat"
-      />
-    </q-card-actions>
   </q-card>
 </template>
 
@@ -204,6 +218,7 @@ export default defineComponent({
   },
   data() {
     return {
+      edSex: ref(false),
       edJob: ref(false),
       edJobError: false,
       edRace: ref(false),
@@ -224,6 +239,7 @@ export default defineComponent({
       "addChar",
       "clearState",
       "charDel",
+      "sexChange",
       "racesEd",
       "jobsEd",
       "addLvl",
@@ -242,6 +258,13 @@ export default defineComponent({
       this.creationError = false;
       this.edRaceError = false;
       this.edJobError = false;
+    },
+    editSex(id) {
+      const updatedSex = {};
+      updatedSex.id = id;
+      this.sexChange(updatedSex);
+      this.resetValues();
+      this.edSex = false;
     },
     editRaces(id) {
       if (this.race != this.race2) {
@@ -274,6 +297,10 @@ export default defineComponent({
     },
     deleteChar(id) {
       this.charDel(id);
+    },
+    changeSex(id) {
+      this .id = id;
+      this.edSex = true;
     },
     edJobs(id, job, job2) {
       this.id = id;
@@ -372,6 +399,12 @@ export default defineComponent({
   font-size: 2rem;
   margin-top: 20px;
   margin-bottom: 0px;
+}
+
+.sexChangeDialog {
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
 }
 .error-msg {
   color: red;
