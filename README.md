@@ -1,7 +1,7 @@
 # MunchkinCharSheet
 
 Projet personnel pour jouer au jeu de société Munchkin sans l'application officielle de Munchkin.
-Cette application crée des personnages pour une partie de Munchkin et permet de modifier leur races, classes, sexes, niveau et bonus de force tout au long de la partie.
+Cette application crée des personnages pour une partie de Munchkin et permet de modifier leur races, classes, sexes, niveaux et bonus de force tout au long de la partie.
 La gestion de ces niveaux est manuelle permettant ainsi aux joueurs de tricher en "oubliant" de donner un niveau à un elfe par exemple...
 
 ## Objectif
@@ -13,8 +13,8 @@ La gestion de ces niveaux est manuelle permettant ainsi aux joueurs de tricher e
 ## Installation
 1. Cloner le repository avec ``git clone https://github.com/Valxer/MunchkinCharSheet.git``
 2. Ouvrir le dossier avec VSCode
-3. Dans VSCode ouvrez un terminal :  
-	* Tapez ``cd Munchkin && npm install`` pour installer les dépendances de l'application
-    * Tapez ensuite ``quasar dev`` pour lancer l'application. La fenêtre devrait s'ouvrir d'elle même. Sinon la console donnera l'URL de l'application sous la section "App URL" (par défaut http://localhost:8080/)
-4. Profitez de la soirée avec des fourberies bien placées et n'oubliez pas de tricher !
+3. Dans VSCode ouvrir un terminal :  
+	* Taper ``cd Munchkin && npm install`` pour installer les dépendances de l'application
+    * Taper ensuite ``quasar dev`` pour lancer l'application. La fenêtre devrait s'ouvrir d'elle même. Sinon la console donnera l'URL de l'application sous la section "App URL" (par défaut http://localhost:8080/)
+4. Profiter de la soirée avec des fourberies bien placées et ne pas oublier de tricher !
     
