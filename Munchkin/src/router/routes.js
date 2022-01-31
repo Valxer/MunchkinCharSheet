@@ -7,10 +7,6 @@ const routes = [
       { path: '',
         name: 'home',
         component: () => import('pages/Index.vue')
-      },
-      { path: 'fight/:id',
-        name: 'fight',
-        component: () => import('pages/Fight.vue')
       }
     ]
   },
