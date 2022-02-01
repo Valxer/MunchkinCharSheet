@@ -10,6 +10,12 @@ La gestion de ces niveaux est manuelle permettant ainsi aux joueurs de tricher e
 + Permettre de trier les personnages selon différents critères : date de création, niveau et puissance totale.
 + Permettre de reset la partie rapidement.
 
+
+## Technologies
++ Vue js
++ Outil de SSR : Framework Quasar
++ State and Store : Vuex
+
 ## Accès
 L'application est hébergée sur netlify à cette adresse : https://munchkincharsheet.netlify.app/
 
