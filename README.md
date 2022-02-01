@@ -1,7 +1,7 @@
 # MunchkinCharSheet
 
-Personal project to facilitate the playability of the board game Munchkin without using the official app.
-This application allows the creation of characters for a Munchkin session and the modification of races, classes, sex, level and strength bonuses throughout the game.
+Personal project to facilitate the playability of the board game Munchkin without using the official app.  
+This application allows the creation of characters for a Munchkin session and the modification of races, classes, sex, level and strength bonuses throughout the game.  
 The leveling is entirely handled by the players which permits a bit of cheating by "accidentaly" forgetting to give a level for example...
 
 ## Objectives
@@ -23,6 +23,6 @@ The application is hosted on netlify at https://munchkincharsheet.netlify.app/
 2. Open the repository with VSCode
 3. Open a terminal in VSCode :  
 	* Type ``cd Munchkin && npm install`` to install all the dependencies
-	* Type ``quasar dev`` to launch the app. The windiw should self-open. Otherwise the console should give you the rul under the section "App URL" (by default http://localhost:8080/)
+	* Type ``quasar dev`` to launch the app. The windiw should self-open. Otherwise the console should give you the URL under the section "App URL" (by default http://localhost:8080/)
 4. Enjoy your games and don't forget to cheat A LOT !
     
