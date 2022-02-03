@@ -23,6 +23,6 @@ The application is hosted on netlify at https://munchkincharsheet.netlify.app/
 2. Open the repository with VSCode
 3. Open a terminal in VSCode :  
 	* Type ``cd Munchkin && npm install`` to install all the dependencies
-	* Type ``quasar dev`` to launch the app. The windiw should self-open. Otherwise the console should give you the URL under the section "App URL" (by default http://localhost:8080/)
+	* Type ``quasar dev`` to launch the app. The window should self-open. Otherwise the console should give you the URL under the section "App URL" (by default http://localhost:8080/)
 4. Enjoy your games and don't forget to cheat A LOT !
     
