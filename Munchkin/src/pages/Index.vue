@@ -5,24 +5,6 @@
       Ajoutez un joueur pour commencer
     </div>
 
-    <!-- Cards display section with level sorting-->
-    <div v-else-if="sort == true" class="cards-container">
-      <charCard
-        v-for="char in lvlSortedChars"
-        :key="char.id"
-        v-bind:char="char"
-      />
-    </div>
-
-    <!-- Cards display section with power sorting-->
-    <div v-else-if="sort == false" class="cards-container">
-      <charCard
-        v-for="char in powerSortedChars"
-        :key="char.id"
-        v-bind:char="char"
-      />
-    </div>
-
     <!-- Cards display section without sorting-->
     <div v-else class="cards-container">
       <charCard v-for="char in chars" :key="char.id" v-bind:char="char" />
@@ -35,10 +17,17 @@
           Trier par : <strong>{{ sortOption }}</strong>
         </div>
         <q-toggle
-          toggle-indeterminate
           v-model="sort"
           @click="setSortOption()"
         />
+        <q-btn
+        class="text-bold reset-btn"
+        text-color="secondary"
+        color="primary"
+        icon-right="mdi-skull-outline"
+        label="Sort"
+        @click="sortChars()"
+      />
       </div>
     </q-page-sticky>
 
@@ -201,9 +190,9 @@ export default defineComponent({
       race2: "Aucune",
       job: "Aucune",
       job2: "Aucune",
-      races: ["Humain", "Elfe", "Nain", "Halfelin", "Orc"],
-      races2: ["Aucune", "Humain", "Elfe", "Nain", "Halfelin", "Orc"],
-      jobs: ["Aucune", "Guerrier", "Magicien", "Prêtre", "Voleur"],
+      races: ["Humain", "Elfe", "Nain", "Halfelin", "Orc", "Gnome", "Centaure", "Homme-Lézard"],
+      races2: ["Aucune", "Humain", "Elfe", "Nain", "Halfelin", "Orc", "Gnome", "Centaure", "Homme-Lézard"],
+      jobs: ["Aucune", "Guerrier", "Magicien", "Prêtre", "Voleur", "Barde", "Rôdeur"],
       // provisionnal char sheet
       character: {
         name: "Valxer",
@@ -219,14 +208,16 @@ export default defineComponent({
   },
   computed: {
     ...mapState("chars", ["chars"]),
-    ...mapGetters("chars", ["lvlSortedChars", "powerSortedChars"]),
   },
   methods: {
-    ...mapActions("chars", ["addChar", "clearState"]),
+    ...mapActions("chars", ["addChar", "clearState", "sortByLevels", "sortByPower"]),
+    sortChars() {
+      if (this.sort == true) this.sortByLevels();
+      else this.sortByPower();
+    },
     setSortOption() {
       if (this.sort == true) this.sortOption = "Niveau";
-      else if (this.sort == false) this.sortOption = "Puissance";
-      else this.sortOption = "Ordre de création";
+      else this.sortOption = "Puissance";
     },
     resetValues() {
       this.id = "";

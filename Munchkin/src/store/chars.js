@@ -5,15 +5,15 @@ const state = {
 }
 
 const getters = {
-    lvlSortedChars: state => {
-        return _.orderBy(state.chars, ['lvl', 'power'], ['desc', 'desc'])
-    },
-    powerSortedChars: state => {
-        return _.orderBy(state.chars, ['power', 'lvl'], ['desc', 'desc'])
-    }
 }
 
 const mutations = {
+    sortByLevels(state) {
+        state.chars = _.orderBy(state.chars, ['lvl', 'power'], ['desc', 'desc'])
+    },
+    sortByPower(state) {
+        state.chars = _.orderBy(state.chars, ['power', 'lvl'], ['desc', 'desc'])
+    },
     addChar(state, payload) {
         let newId = 0
         for (let i=0; i<state.chars.length; i++) {
@@ -105,6 +105,14 @@ const mutations = {
 }
 
 const actions = {
+    sortByLevels({commit}) {
+        // console.log('sort by levels')
+        commit('sortByLevels')
+    },
+    sortByPower({commit}) {
+        // console.log('sort by power')
+        commit('sortByPower')
+    },
     addChar({commit}, payload) {
         // console.log('adding char')
         commit('addChar', payload)

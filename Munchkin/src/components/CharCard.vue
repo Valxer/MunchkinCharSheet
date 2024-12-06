@@ -229,9 +229,9 @@ export default defineComponent({
       race2: "Aucune",
       job: "Aucune",
       job2: "Aucune",
-      races: ["Humain", "Elfe", "Nain", "Halfelin", "Orc"],
-      races2: ["Aucune", "Humain", "Elfe", "Nain", "Halfelin", "Orc"],
-      jobs: ["Aucune", "Guerrier", "Magicien", "Prêtre", "Voleur"],
+      races: ["Humain", "Elfe", "Nain", "Halfelin", "Orc", "Gnome", "Centaure", "Homme-Lézard"],
+      races2: ["Aucune", "Humain", "Elfe", "Nain", "Halfelin", "Orc", "Gnome", "Centaure", "Homme-Lézard"],
+      jobs: ["Aucune", "Guerrier", "Magicien", "Prêtre", "Voleur", "Barde", "Rôdeur"],
     };
   },
   methods: {
